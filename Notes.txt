@@ -1,0 +1,499 @@
+Derived Named method - Whenever we are using findBy we're telling to the spring data jpa to run select query using the 
+column ex.(findByMobileNumber) MobileNumber not case sensitive on your variable declared in its entity class. 
+
+bitnami
+
+hookdeck
+
+3 Approaches to generate docker image - 
+
+Dockerfile
+Buildpacks
+Google Jib
+
+
+
+docker build . -t lex2327/accounts:s4
+
+
+docker inspect image fd96df7bca18
+
+docker run -p 8080:8080 lex2327/accounts:s4
+
+docker run -d -p 8080:8080 lex2327/accounts:s4
+
+docker run -d -p 8081:8080 lex2327/accounts:s4
+
+docker run -d -p 8090:8090 lex2327/loans:s4
+
+docker run -d -p 9000:9000 lex2327/cards:s4
+
+docker run -p 3308:3306 --name cardsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cardsdb -d MySQL
+
+docker run -it -d --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.13-management guest guest
+
+docker ps -a
+
+docker start ea6f5b85862afa605425561c75ff59f92f9290a7ab795b938442b7a742101d04
+
+docker stop ea6f5b85862afa605425561c75ff59f92f9290a7ab795b938442b7a742101d04
+
+docker image push docker.io/lex2327/accounts:s4
+
+docker pull lex2327/accounts:s4
+
+docker compose version
+
+docker compose up -d
+
+docker compose down
+
+docker compose stop
+
+docker compose start
+
+docker container kill [container id]
+
+docker container logs [container id]
+
+kubectl config get-contexts
+
+kubectl config get-clusters
+
+kubectl config use-context docker-desktop
+
+kubectl get nodes
+
+kubectl get events --sort-by=.metadata.creationTimestamp
+
+kubectl scale deployment accounts-deployment --replicas=1
+
+kubectl describe pod gatewayserver-deployment-xxxx
+
+kubectl set image deployment gatewayserver-deployment gatewayserver=lex2327/gatewayserver:s11 --record
+
+kubectl rollout history deployment gatewayserver-deployment
+
+kubectl rollout undo deployment gatewayserver-deployment --to-revision=1
+
+To access dashboard - kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
+
+kubectl apply -f dashboard-adminuser.yaml
+
+kubectl get deployments
+
+kubectl get replicaset
+
+helm create eazybank-common
+
+helm dependencies build
+
+helm history eazybank
+
+helm rollback eazybank 1
+
+8081 <- port exposed which is used by local network : 8080 <- port for docker network
+
+
+docker should be small as much as possible (caching mechanism, compression, etc...) and secured.
+
+hookdeck logout
+
+ab -n 10 -c 2 -v 3 http://localhost:8072/eazybank/cards/api/contact-info
+
+Advantages:
+
+- When you have dockerfile it allows flexibility for specific configuration per microservice.
+
+- Unlike buildpacks and jibs we are accepting what are the configurations in them.
+mvn spring-boot:build-image
+
+- Buidpacks approach have the flexibility so it is the best option.
+
+- Jib approach have very less time to generate docker image. It's going to take less memory. Our microservice are only java.
+
+
+
+Docker Compose:
+
+- 3 different images to run we need to convert it to container with the help of docker run command. What if I want to start
+my services with multiple instances. In such scenario it is time consuming process.
+
+- Solution for it inside of docker ecosystem there is a component named docker compose.
+
+- Docker Compose is a tool for defining and running multi-container applications. 
+It is the key to unlocking a streamlined and efficient development and deployment experience.
+
+Cloud Native Application:
+- Cloud-native applicaations are software applications designed specifically to leverage cloud computing 
+principles and take full advantage of cloud-native technologies and services. These applications are built and optimized to run in 
+cloud environments, utilizing the scalability, elasitcity, and flexibility offered by the cloud.
+
+- Take advantage of cloud native services provided by the cloud platform, such as managed databases, messaging queues, caching systems, and identity services. This allows developers to
+focus more on application logic and less on managing infrastructure components.
+
+
+Java Record class:
+
+- Sometimes we want our POJO and dto classes to simply act as data carriers which means first, I'll create an object of this DTO class and someone can read the data from 
+the object of this DTO class, but they should not able to change. So whatever fields data that you pass during the object creation, the same values are going to be final and 
+anyone can read using the getter methods and there won't be any setter methods. So instead of writing all the getter methods and creating a constructor that is going to accept 
+the final Java fields you can simply use this record class.
+
+
+Externalized configuration:
+
+Command line argument:
+
+- Spring Boot automatically converts command-line arguments into key/value pairs and adds them 
+to the Environment object. In a production application, this becomes the property source with the 
+highest precedence. You can customize the application configurtation by specifying command-line 
+arguments when running the JAR you build earlier. 
+
+java -jar accounts-service-0.0.1-SNAPSHOT.jar --build.version="1.1"
+
+- The command-line argument follows the same naming convention as the corresponding Spring 
+spring property, with the familiar --prefix for CLI arguments.
+
+- JVM system properties, similar to command-line arguments, can override Spring properties with
+a lower priority. This approach allows for externalizing the configuration without the need to 
+rebuild the JAR artifact. The JVM system property follows thee same naming conventioon as the
+corresponding Spring property, prefixed with -D for JVM arguments. In the application, the 
+message defined as JVM system property will be utilized, taking precedence over property files.
+
+java -Dbuild.version="1.2" -jar accounts-service-0.0.1-SNAPSHOT.jar
+
+- Environment variables are widely used for externalized configuration as they offer portability 
+across different operating systems, as they are universally supported. Most programming
+languages, including Java, provide mechanisms to access environment variables, such as the 
+System.getenv() method.
+
+env:BUILD_VERSION="1.3"; java -jar accounts-service-0.0.1-SNAPSHOT.jar
+
+BUILD_VERSION="1.3" java -jar accounts-service-0.0.1-SNAPSHOT.jar'
+
+
+Webhook is use to register events for your system, you can integrate your github repo with it even in localhost set up via hookdeck.com
+
+
+liveness:
+- A liveness probe sends a signat that the container or application is either alive (passing) or 
+dead (failing). If the container is alive, then no action is required because the current state 
+is good. If the container is dead, then an attempt should be made to heal the application by 
+restarting it.
+
+readiness:
+- A readiness probe used to know whether the container or app being probed is ready to start 
+receiving network traffic. If your container enters a state where it is still alive but cannot
+handle incoming network traffic (a common scenario during startup), you want the readiness probe 
+to fail. So that, traffic will not be sent to a container which isn't ready for it.
+
+If someone prematurely send network traffic to the container. It could cause the load balancer 
+(or router) to return a 502 error to the client and terminate the request. The client would get 
+a "connection refused". error message.
+
+
+MYSQL container:
+- In real production, MySQL DBAs will attach a storage or volume where the data can be stored by 
+the MySQL container. That's why in real prod MySQL containers, we never lost data even if we 
+delete o replace the MySQL container.
+
+
+
+Resiliency:
+
+- Ensuring system stability and resilience is crucial for providing a reliable service to users. 
+One of the critical aspects in achieving a stable and resilient system for production is managing 
+the integration points between services over a network.
+
+- There exist various patterns for building resilient applications. In the Java ecosystem, Hystrix, a library developed by Netflix, was widely used for implementing such patterns, However, 
+Hystrix entered maintenance mode in 2018 and is no longer being actively developed. To address this, Resilience4J has gained significant popularity, stepping in to fill the gap left by Hystrix. Resilience4J provides a comprehensive set of features for building resilient applications and has become a go to choice for Java developers.
+
+
+Resilience4j is a lightweight fault tolerance library designed for functional programming. 
+It offers the following patterns for increasing fault tolerance due to network problems 
+or failure of any of the multiple services:
+
+- Circuit breaker - Used to stop making requests when a service invoked is failing
+- Fallback - Alternative paths to failing requests
+- Retry - Used to make retires when a service has temporarily failed
+- Rate limit - Limits the number of calls that a service receives in a time
+- Bulkhead - Limits the number of outgoing concurrent requests to a service to avoid
+overloading.
+
+
+- When a microservice responds slowly or fails to function, it can lead 
+to the depletion of resource threads on the gateway server and intermidiate
+services. This, in turn, has a negative impact on the overall performance 
+of the microservice network. To handle this kind of scenarios, we can use 
+Circuit Breaker pattern.
+
+It will not waste resources by invoking other microservices. Like threads will not be block 
+for a long time.
+
+
+Retry Pattern:
+- The retry pattern will make configured multiple retry attempts when a service has temporarily failed. This pattern is very helpful in the scenarios like network disruption where the client request may successful after a retry attempt.
+
+- Idempotent Operations: Ensure that the retried operation is idempotent, meaning it produces the 
+same result regardless of how many times it is invoked. This prevents unintended side effects or 
+duplicate operations.
+
+
+
+Bulkhead:
+
+- The Bulkhead pattern in software architecture is a design pattern that aims to improve the resilience and isolation of components or services within a system. It draws inspiration from the concept of bulkheads in ships, which are physical partitions that prevent the flooding of one compartment from affecting others, enhancing the overall stability and safety of the vessel.
+
+- In the context of software systems, the Bulkhead pattern is used to isolate and limit the impact of failures or high loads in one component from spreading to other components. It helps ensure that a failure or heavy load in one part of the system does not bring down the entire system, enabling other components to continue funcitoning independently.
+
+Bulkhead Pattern helps us to allocate limit the resources which can be used for specific services. So that resource exhaustion can be reduced.
+
+
+Observability:
+- Observability is the ability to understand the internal state of a system by observing its outputs. In the context of microservices, observability is acieved by collecting and analyzing data from a variety of sources, such as metrics, logs and traces.
+
+Three pillars of observability:
+ - Metrics are quantitative measurements of the health of a system. They can be used to track things like CPU usage, memory usage, and response times.
+
+ - Logs are a record of events that occur in a system. They can be used to track things like errors, exceptions, and other unexpected events.
+
+ - Traces are a record of the path that a request takes through a system. They can be used to track the performance of a request and to identify bottlenecks.
+
+
+Monitoring:
+- Monitoring in mictroservices involves checking the telemetry data available for the application and defining alerts for known failure states. This process collects and analyzes data from a system to identify and troubleshoot problems, as well as track the health of individual microservices and the overall health of the microservices network.
+
+Monitoring and observability can be considered as two sides of the same coin. Both rely on the same types of telemetry data to enable insight into software distributed systems. Those data types - metrics, traces, and logs - are often referred to as the three pillars of observability.
+
+
+MS -> Promtail (collects logs from containers, process and Forwards them Loki) -> Loki (log aggregation system) ---> Grafana (Query, search, visualize the logs with Loki as datasource).
+
+- Microservices with the help of actuator and micrometer exposes metrics information
+- Prometheus scrapes metrics from services
+- Grafana, Query, search, visualize the metrics, build dashboard, alerts with Prometheus as 
+datasource.
+
+
+Distributed tracing in microservices:
+- Tags serve as metadata that offer supplementary details about the span context, including the request URI, the username of the authenticated user, or the identifier for a specific tenant.
+
+- A trace denotes the collection of actions tied to a request or transaction, distinguished by a trace ID. It consists of multiple spans that span across various services.
+
+- A span represents each individual stage of request processing, encompassing start and end timestamps, and is uniquely identified by the combination of trace ID and span ID.
+
+
+
+OpenTelemetry java
+- OpenTelemetry java agent JAR dynamically injects bytecode to add trace information and send to Tempo.
+- Trace aggregator and distributed tracing system
+- Grafana Query Query, search, visualize the traces with Tempo as datasource.
+
+
+
+Spring Security:
+- Why should we use OAUTH2 framework for implementing security inside our microservices? Why can't we use the basic authentication?
+
+Oauth2 terminology:
+- Resource owner it is you the end user. In the scenario of Stackoverflow, the end user who want to use the GitHub services to get his details. In other words, the end user owns the resources (email, profile), that's why we call him as Resource owner.
+
+- Client The website, mobile app or API will be the client as it is the one which interacts with GitHub services on behalf of the resource owner/end user. In the scenario of Stackoverflow, the Stackoverflow website is Client.
+
+- Authorization Server This is the server which knows about resource owner. In other words, resource owner should have an account in this server. In the scenario of Stackoverflow, the GitHub server which has authorization logic acts as Authorization server.
+
+- Resource Server This is the server where the resources that client want to consume are hosted. In the scenario of Stackoverflow, the resources like User Email, Profile details are hosted inside GitHub server. So it will act as a resource server.
+
+- Scopes These are the granular permissions the Client wants, such as access to data or to perform certain actions. The Auth server can issue an access token to client with the scope of Email, READ etc.
+
+
+
+OPENID Connect:
+- It is a protocol that sits on the top of the OAuth 2.0 framework. While OAuth 2.0 provides authorization via an access token containing scopes, OpenID Connect provides authentication by introducing a new ID token which contains a new set of information and claims specifically for identity.
+
+- With the ID token, OpenID connect brings standards around sharing identity details among the applications.
+
+
+Client Credentials Grant type flow in OAUTH2:
+- client_id and client_secret the credentials of the client to authenticate itself.
+- scope - similar to authorities. Specifies level of access that client is requesting like EMAIL, PROFILE
+- grant_type - With the value 'client_credentials' which indicates that we want to follow client credentials grant type.
+
+
+KeyCloak:
+- realm is a boundary where you want to create set of client credentials or user credentials.
+
+
+
+
+Event Driven Architecture:
+- Avoiding temporal coupling whenever possible, Temporal coupling occurs when a caller service expects an immediate response from a callee service before continuing its processing. If the callee experiences any delay in responding it negatively impacts the overall response time of the caller. This scenario commonly arises in synchronous communication between services. How can we prevent temporal coupling and mitigate its effects?
+
+
+- Asynchronous communication Synchronous communication between services is not always necessary. In many real-world scenario, asynchronous communication can fulfill the requirements effectively. So how can we establish asynchronous communication between services?
+
+
+- An Event, as an incident, signifies a significant occurrence within a system, such as a state transition. Multiple sources can generate events. When an event takes place, it is possible to alert the concerned parties. How can one go about constructing event-driven services with these characteristics?
+
+
+- This model revolves around subscriptions. Producers generate events that are distributed to all subscribers for consumption. Once an event is received, it cannot be replayed, which means new subscribers joining later will not have access to past events.
+
+- Event Streaming Model In this model, events are written to a log in a sequential manner. Producers publish events as they occur, and these events are stored in a well-ordered fashion. Instead of subscribing to events, consumers have the ability to read from any part of the event stream. One advantage of this model is that events can be replayed, allowing clients to join at any time and receive all past events.
+
+- RabbitMQ an open-source message broker, is widely recognized for its utilization of AMQP(Advanced Message Queueing Protocol and its ability to offer flexible asynchronous messaging, distributed deployment, and comprehensive monitoring. Furthermore, recent versions of RabbitMQ have incorporated event streaming functionalities into their feature set.
+
+- Producer: The entity responsible for sending message (aka as the publisher).
+
+- Consumer: The entity tasked with receiving messages (aka the subscriber).
+
+- Message broker: The middleware that receives messages from producers and directs them to the appropriate consumers.
+
+
+Spring Cloud:
+- Spring cloud function facilitates the development of business logic by utilizing functions that adhere to the standard interfaces introduced in Java 8, namely Supplier, Function, and Consumer.
+
+- A supplier is a function that produces an output without requiring any input. It can also be referred to as a producer, publisher, or source.
+
+- A function accepts input and generates an output. It is commonly referred to as a processor.
+
+- A consumer is a functions that consumes input but does not produce any output. It can also be called a subscriber or sink.
+
+
+
+
+Why to use Spring cloud stream:
+- Spring cloud stream is a framework designed for creating scalable, event-driven, and streaming applications. its core principle is to allow developers to focus on the business logic while the framework takes care of infrastructure-related tasks, such as integrating with a message broker.
+
+- Spring cloud stream leverages the native capabilities of each message broker, while also providing an abstraction layer to ensure a consistent experience regardless of the underlying middleware. By just adding a dependency to your project, you can have functions automatically connected to an external message broker. The beauty of this approach is that you don't need to modify any application code; you simply adjust the configuration in the application.yml File.
+
+
+The core building blocks of spring cloud streams are:
+- Destination binders - Components responsible to provide integration with the external messaging systems.
+
+- Destination Bindings - Bridge between the external messaging systems and application code (producer/consumer) provided by the end user.
+
+ - Message - The canonical data structure used by producers and consumers to communicate with destination binders (and thus other applications via external messaging systems).
+
+
+
+Apache Kafka vs RabbitMQ
+- Design: Kafka is a distributed event streaming platform, while RabbitMQ is a message broker. This means that Kafka is designed to handle large volumes of data, while RabbitMQ is designed to handle smaller volumes of data with more complex routing requirements.
+
+- Data Retention: Kafka stores data on dis, while RabbitMQ stores data in memory. This means that Kafka can retain data for longer periods of time, while RabbitMQ is more suitable for applications that require low latency.
+
+Kafka windows command:
+.\bin\windows\kafka-storage.bat random-uuid
+tp7UC-khRJ6HjZMW6sKjTw
+
+.\bin\windows\kafka-storage.bat format -t tp7UC-khRJ6HjZMW6sKjTw -c .\config\kraft\server.properties
+
+
+Container Orchestration:
+- So whenever you have such kind of large number of containers inside your organizations, we need a component that is going to take care of container orchestration. We need a component which can 
+control our containers based upon the requirements that we have.
+
+- Automating the deployments, rollouts and rollbacks?
+We should try to automate as much as possible because inside microservices we are going to 
+deal hundreds of applications.
+
+- When you try to do that deployment, bigger organizations, they cannot afford a downtime. So in such scenarios they will go with an option of rollout. As part of this rollout, they are going to replace the containers one by one with the latest Docker. Once the new container is available, 
+then only we can terminate the previous running containers.
+
+- In such scenarios, you should also have a flexibility of automatic rollback to the previous running version of the docker image in case of any issues.
+
+- Making sure our services are self-healing, how do we automatically restarts containers that fail, replaces containers that fail, replaces containers, kills containers that don't respond to your user-defined health check, and doesn't advertise them to clients until they are ready to serve.
+
+- Autoscaling our services, How do we monitour our services and scale them automatically based on metrics like CPU Utilization etc.?
+
+- Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It was originally developed by Google and is now maintained by the Cloud Native Computing Foundation (CNCF).
+
+- Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. It provides you with:
+
+. Service discovery and load balancing
+. Container and storage orchestration
+. Automated rollouts and rollbacks
+. Self-healing
+. Secret and configuration management
+
+- The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbrevieation results from counting the eight letters between the "K" and the "s".
+
+- We cannot deploy all our containers with the help of Docker compose. Whenever we are using docker compose, you are going to deploy all your containers inside a single server.
+
+- Kubelet is an agent running inside all your worker nodes using these kubelet only my master node is going to connect with the worker node and it is going to provide the instructions with the help of kube api server.
+
+- Pod is a smallest deployment unit inside the Kubernetes like worker node is going to be a jumbo server since, we cannot deploy your containers directly into the worker nodes. Instead, the Kubernetes is going to create a pod inside a worker node. And inside this pod only the actual containers of the microservices are going to be deployed. Suppose if you are trying to deploy multiple microservices into your same worker node to provide that isolation from other microservices, we are going to have a concept of pods. So inside these pods only the containers will be deployed. Always remember inside a pod, only a specific microservice or a specific application only allowed. So such helper containers we can deploy inside the same pod where we have the main container. So this kind of deploying a helper container along with the main container inside a pod is called a sidecar pattern.
+
+- We can install the Kubernetes dashboard only with the help of helm. Helm is a package manager for Kubernetes.
+
+
+3 Kubernetes Service types:
+
+- ClusterIP Service - This is the default service that uses an internal cluster IP to expose Pods. In ClusterIP, the services are not available for external access of the cluster and used for internal communications  between different Pods or microservices in the cluster.
+
+- NodePort Service - This service exposes outside and allows the outside traffic to connect to K8s Pods through the node port which is the port opened at Node end. The Pods can be accessed from external using <NodeIp>:<Nodeport>.
+
+- LoadBalancer Service - This service is exposed like in NodePort but creates a load balancer in the cloud where K8s is running that receives external requests to the service. It then distributes them among the cluster nodes using NodePort.
+
+
+
+Helm:
+- Helm is renowned as the "package manager of Kubernetes", aiming to enhance the management of Kubernetes projects by offering users a more efficient approach to handling the multitude of YAML files involved. Without helm we need to maintain all k8s manifest files for deployment, service, configmap etc. for each microservice.
+
+
+
+Client-side discovery:
+- In client-side service discovery, applications are responsible for registering themselves with a service registrly like Eureka during startup and unregistering when shutting down. When an application needs to communicate with a backing service, it queries the service registry for the associated IP address. If multiple instances of the service are available, the registry returns a list of IP addresses. The client application then selects one based on its own defined load-balancing strategy.
+
+
+
+Server-side discover:
+- In server-side service discovery, the K8s discovery server is responsible to monitor the application instances and maintaining the details of them. When a microservice needs to communicate with a backing service, it simply invokes the service URL exposed by the K8s. The K8s will take care of loadbalancing the requests at the server layer. So clients are free from load balancing in this scenario.
+
+
+
+Kubernetes Ingress:
+- Using ingress we can expose our microservices in the outside world.
+
+- So whenever you are using sevice type as LoadBalancer, you are going to expose a particular microservice to which you are tagging the service type as LoadBalancer to the outside of your Kubernetes cluster. So if you use service type as LoadBalancer for five different microservices, then all of them they are going to have five different public IPS with their own LoadBalancer provided by your cloud provider.
+
+- But some organizations, instead of building their own edge server with the help of Spring cloud gateway, they are going to rely on the Kubernetes ingress.
+
+- Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource. An ingress may be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL/TLS, and offer name-based  virtual hosting.
+
+- Ingress Controller, on its own, the ingress resource doesn't do anything. You need to have an ingress controller installed and configured in your cluster to make ingress resources functional. Popular Ingress controllers include Nginx Ingress. Traefic, and HAProxy Ingress. The controller watches for Ingress resources and configures the underlying networking components accordingly.
+
+- Ingress traffic entering a Kubernetes cluster
+- Egress traffic exiting a Kubernetes cluster
+- North-south traffic entering and exiting a Kubernetes cluster
+
+
+Service Mesh:
+- service to service traffic - traffic moving among services within a Kubernetes cluster (also called as east-west traffic). Service  mesh can handle east-west traffic efficiently.
+
+- A service mesh is a dedicated infrastructure layer for managing communication between microservices in a containerized application. It provides a set of networking capabilities that help facilitate secure, reliable and observable communication between services within a distributed system.
+. service discovery
+. load balancing
+. circuit breaking
+. fault tolerance
+. metrics and tracing
+. security - service mesh can secure internal service to service communication in a cluster with Mutual TLS (mTLS)
+
+- Data plane this is responsible for routing traffic between services. It can be implemented using proxies. Each microservices instance is accompanied by a lightweight proxy (Envoy, Linkerd proxy) known as a  sidecar. These proxies handle traffic to and from the service, intercepting requests and responses.
+
+- Control plane: The control plane is responsible for configuring, managing, and monitoring the proxies. It includes components like a control plane API, service discovery, and configuration management:
+
+Istio
+Linkerd
+Consul
+Kong
+AWS App Mesh
+Azure Service Mesh
+
+
+mTLS:
+- Mutual TLS represents a variant of transport layer security (TLS). Which succeeded secure sockets layer (SSL) stands as the prevailing standard for secure communication, prominently used in HTTPS. It facilitates secure communication that guarantees both confidentiality(protection against eavesdropping) and authenticity (protection against tampering) between a server, which needs to verify its identity to clients.
+
+- mTLS is often used in a Zero trust security framework to verify users, devices, and servers within an organization. It can also help keep APIs secure.
+
+- Zero Trust means that no user, device, or network traffic is trusted by default, an approach that helps eliminate many security vulnerabilities.
+
+- TLS is the direct successor to SSL, and all versions of SSL are now deprecated. However, it's common to find the term SSL describing a TLS connection. In most cases, the terms SSL and SSL/TLS both refer to the TLS protocol and TLS certificates.
